@@ -36,6 +36,12 @@ export class Car {
         method: 'POST',
         callback: this.createCar,
         requireToken: true,
+      },
+      {
+        route: '/update-car/id/:id',
+        method: 'PUT',
+        callback: this.updateCar,
+        requireToken: true,
       }
 
     ]];
@@ -73,6 +79,15 @@ export class Car {
       console.log('req.body -->', req.body);
       let carCtrl = model.controller;
       let resp = await carCtrl.insert(req, null, null);
+      res.json({ message: 'Success', resp });
+    }
+  }
+
+  updateCar(model: any) {
+    return async (req: Request, res: Response, next: NextFunction) => {
+      console.log('req.body -->', req.body);
+      let carCtrl = model.controller;
+      let resp = await carCtrl.update(req, null, null);
       res.json({ message: 'Success', resp });
     }
   }
