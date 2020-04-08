@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'; 
 
-export class Car {
+export class Book {
   _model: any;
   constructor(norm: any) {
     this.model = [{
@@ -8,7 +8,6 @@ export class Car {
       make: { type: String, maxlength: 24 },
       model: { type: String, maxlength: 24 },
       year: { type: String, maxlength: 24 },
-      color: { type: String, maxlength: 24 },
       mileage: { type: String, maxlength: 24 },
       user_id: {
         type: Number,
@@ -17,43 +16,37 @@ export class Car {
         onDelete: 'cascade',
         onUpdate: 'cascade'
       },
-    }, 'A table to store users car model',
+    }, 'A table to store users book model',
     [
       {
-        route: '/get-all-cars',
+        route: '/get-all-book',
         method: 'POST',
-        callback: this.getAllCars,
+        callback: this.getBookByID,
         requireToken: true,
       },
       {
-        route: '/get-car-by-id/:id',
+        route: '/get-book-by-id/:id',
         method: 'POST',
-        callback: this.getCarByID,
-        requireToken: true,
-      },
-      {
-        route: '/create-car',
-        method: 'POST',
-        callback: this.createCar,
+        callback: this.getBookByID,
         requireToken: true,
       }
 
     ]];
   }
 
-  getAllCars(model: any) {
+  getAllBooks(model: any) {
     return async (req: Request, res: Response, next: NextFunction) => {
       req.body = {
           get: ["*"]
         }
 
-      let carCtrl = model.controller;
-      let resp = await carCtrl.get(req, null, null);
+      let bookCtrl = model.controller;
+      let resp = await bookCtrl.get(req, null, null);
       res.json({ message: 'Success', resp });
     }
   }
 
-  getCarByID(model: any) {
+  getBookByID(model: any) {
     return async (req: Request, res: Response, next: NextFunction) => {
       req.body = {
           get: ["*"],
@@ -62,17 +55,8 @@ export class Car {
           }
         }
 
-      let carCtrl = model.controller;
-      let resp = await carCtrl.get(req, null, null);
-      res.json({ message: 'Success', resp });
-    }
-  }
-
-  createCar(model: any) {
-    return async (req: Request, res: Response, next: NextFunction) => {
-      console.log('req.body -->', req.body);
-      let carCtrl = model.controller;
-      let resp = await carCtrl.insert(req, null, null);
+      let bookCtrl = model.controller;
+      let resp = await bookCtrl.get(req, null, null);
       res.json({ message: 'Success', resp });
     }
   }

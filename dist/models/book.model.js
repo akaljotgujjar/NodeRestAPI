@@ -8,14 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-class Car {
+class Book {
     constructor(norm) {
         this.model = [{
                 id: { type: Number, key: 'primary' },
                 make: { type: String, maxlength: 24 },
                 model: { type: String, maxlength: 24 },
                 year: { type: String, maxlength: 24 },
-                color: { type: String, maxlength: 24 },
                 mileage: { type: String, maxlength: 24 },
                 user_id: {
                     type: Number,
@@ -24,39 +23,33 @@ class Car {
                     onDelete: 'cascade',
                     onUpdate: 'cascade'
                 },
-            }, 'A table to store users car model',
+            }, 'A table to store users book model',
             [
                 {
-                    route: '/get-all-cars',
+                    route: '/get-all-book',
                     method: 'POST',
-                    callback: this.getAllCars,
+                    callback: this.getBookByID,
                     requireToken: true,
                 },
                 {
-                    route: '/get-car-by-id/:id',
+                    route: '/get-book-by-id/:id',
                     method: 'POST',
-                    callback: this.getCarByID,
-                    requireToken: true,
-                },
-                {
-                    route: '/create-car',
-                    method: 'POST',
-                    callback: this.createCar,
+                    callback: this.getBookByID,
                     requireToken: true,
                 }
             ]];
     }
-    getAllCars(model) {
+    getAllBooks(model) {
         return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             req.body = {
                 get: ["*"]
             };
-            let carCtrl = model.controller;
-            let resp = yield carCtrl.get(req, null, null);
+            let bookCtrl = model.controller;
+            let resp = yield bookCtrl.get(req, null, null);
             res.json({ message: 'Success', resp });
         });
     }
-    getCarByID(model) {
+    getBookByID(model) {
         return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             req.body = {
                 get: ["*"],
@@ -64,16 +57,8 @@ class Car {
                     id: req.params.id
                 }
             };
-            let carCtrl = model.controller;
-            let resp = yield carCtrl.get(req, null, null);
-            res.json({ message: 'Success', resp });
-        });
-    }
-    createCar(model) {
-        return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            console.log('req.body -->', req.body);
-            let carCtrl = model.controller;
-            let resp = yield carCtrl.insert(req, null, null);
+            let bookCtrl = model.controller;
+            let resp = yield bookCtrl.get(req, null, null);
             res.json({ message: 'Success', resp });
         });
     }
@@ -84,4 +69,4 @@ class Car {
         return this._model;
     }
 }
-exports.Car = Car;
+exports.Book = Book;
